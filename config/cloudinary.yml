@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: du8uwloft
+  api_key: '482621185936865'
+  api_secret: "--zxCvt64GqI453I7xX85Bym578"
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: du8uwloft
+  api_key: '482621185936865'
+  api_secret: "--zxCvt64GqI453I7xX85Bym578"
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: du8uwloft
+  api_key: '482621185936865'
+  api_secret: "--zxCvt64GqI453I7xX85Bym578"
+  enhance_image_tag: true
+  static_image_support: false
