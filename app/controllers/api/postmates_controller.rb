@@ -9,14 +9,12 @@ class Api::PostmatesController < ApplicationController
   end
 
   def get_estimate
-    dropoff_address = params["drop_off"]
-    pickup_address = params["pick_up"]
     response = RestClient::Request.execute({
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
                 :headers => { 'Authorization' => "Basic MDkyNDMwZGQtMjU4NC00YTczLWIwYmQtYTExZWYzZjliMjIwOg==" },
-                :payload => { :dropoff_address => dropoff_address,
-                           :pickup_address => pickup_address}})
+                :payload => { :dropoff_address => params["dropoff_address"],
+                           :pickup_address => params["pickup_address"]}})
     # response = RestClient::Request.execute({
     #             method: :post,
     #             url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
