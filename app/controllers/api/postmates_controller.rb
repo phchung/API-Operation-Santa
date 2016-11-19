@@ -38,11 +38,19 @@ class Api::PostmatesController < ApplicationController
     end
   end
 
+  # def parse_number
+  #   number = {:pickup_phone_number => nil,:dropoff_phone_number => nil}
+  #   if params[pickup_phone_number]
+  #     params[pickup_phone_number].gsub(/[^A-Za-z0-9\s]/i, '').delete(" ")
+  #     number[:pickup_phone_number]
+  #
+  # end
+
   private
 
   def deliveries_params
     params.permit(
-      :manifest,:dropoff_name,:dropoff_phone_number,:dropoff_address,:pickup_name,:pickup_phone_number,:pickup_address
+      :quote_id,:manifest,:dropoff_name,:dropoff_phone_number,:dropoff_address,:pickup_name,:pickup_phone_number,:pickup_address
     )
   end
 end
