@@ -12,15 +12,9 @@ class Api::PostmatesController < ApplicationController
     response = RestClient::Request.execute({
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
-                :headers => { 'Authorization' => "Basic MDkyNDMwZGQtMjU4NC00YTczLWIwYmQtYTExZWYzZjliMjIwOg==" },
+                :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
                 :payload => { :dropoff_address => params["dropoff_address"],
                            :pickup_address => params["pickup_address"]}})
-    # response = RestClient::Request.execute({
-    #             method: :post,
-    #             url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
-    #             :headers => { 'Authorization' => "Basic MDkyNDMwZGQtMjU4NC00YTczLWIwYmQtYTExZWYzZjliMjIwOg==" },
-    #             :payload => { :dropoff_address => dropoff_address,
-    #                        :pickup_address => pickup_address}})
     render json: response
   end
 
@@ -29,7 +23,7 @@ class Api::PostmatesController < ApplicationController
       response = RestClient::Request.execute({
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/deliveries',
-                :headers => { 'Authorization' => "Basic MDkyNDMwZGQtMjU4NC00YTczLWIwYmQtYTExZWYzZjliMjIwOg==" },
+                :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
                 :payload => deliveries_params.merge(parse_number)})
     rescue => e
       render json: e
@@ -50,7 +44,11 @@ class Api::PostmatesController < ApplicationController
 
   def deliveries_params
     params.permit(
-      :quote_id,:manifest,:dropoff_name,:dropoff_phone_number,:dropoff_address,:pickup_name,:pickup_phone_number,:pickup_address
+      :quote_id,:manifest,:dropoff_name,:dropoff_phone_number,:dropoff_address,:pickup_name,:pickup_phone_number,:pickup_address,
+      :robo_delivered,:robo_dropoff,:robo_pickup_complete,:robo_pickup
     )
   end
 end
+# save delivry history
+# put call for updating user info
+# deleter user

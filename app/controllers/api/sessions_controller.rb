@@ -12,10 +12,7 @@ class Api::SessionsController < ApplicationController
       render 'api/users/show'
     else
       render(
-        json: {
-          base: ["Invalid username/password combination"]
-        },
-        status: 401
+        json: ["Invalid username/password combination"],status: 401
       )
     end
   end
@@ -27,10 +24,7 @@ class Api::SessionsController < ApplicationController
       render 'api/users/show'
     else
       render(
-        json: {
-          base: ['Invalid username/password combination']
-        },
-        status: 401
+        json: ['Invalid username/password combination'],status: 401
       )
     end
   end
