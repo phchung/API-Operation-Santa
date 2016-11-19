@@ -30,7 +30,7 @@ class Api::PostmatesController < ApplicationController
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/deliveries',
                 :headers => { 'Authorization' => "Basic MDkyNDMwZGQtMjU4NC00YTczLWIwYmQtYTExZWYzZjliMjIwOg==" },
-                :payload => deliveries_params.concat(parse_number)})
+                :payload => deliveries_params.merge(parse_number)})
     rescue => e
       render json: e
     else
@@ -40,9 +40,9 @@ class Api::PostmatesController < ApplicationController
 
   def parse_number
     number = {:pickup_phone_number =>
-      params[pickup_phone_number].gsub(/[^0-9\s]/i, '').delete(" "),
+      params[:pickup_phone_number].gsub(/[^0-9\s]/i, '').delete(" "),
       :dropoff_phone_number =>
-      params[dropoff_phone_number].gsub(/[^0-9\s]/i, '').delete(" ")}
+      params[:dropoff_phone_number].gsub(/[^0-9\s]/i, '').delete(" ")}
     number
   end
 
