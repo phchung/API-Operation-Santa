@@ -48,7 +48,7 @@ class Api::UserController < ApplicationController
     @user = User.find(params[:id])
     if @user
       @user.destroy
-      render status: 200
+      render json:{},status: 200
     else
       render json: @user.errors, status: 401
     end
