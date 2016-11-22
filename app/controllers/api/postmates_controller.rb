@@ -31,9 +31,9 @@ class Api::PostmatesController < ApplicationController
                 :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
                 :payload => deliveries_params.merge(parse_number)})
     rescue => e
-      render e, status: 401
+      render json: e.http_body, status: 401
     else
-      render response
+      render json: response.body
     end
   end
 
