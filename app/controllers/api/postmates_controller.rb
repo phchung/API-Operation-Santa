@@ -9,17 +9,21 @@ class Api::PostmatesController < ApplicationController
   end
 
   def get_estimate
-    response = RestClient::Request.execute({
+    begin
+      response = RestClient::Request.execute({
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
                 :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
                 :payload => { :dropoff_address => params["dropoff_address"],
                            :pickup_address => params["pickup_address"]}})
-    render json: response
+    rescue => e
+      render json: e, status: 401
+    else
+      render json: response
+    end
   end
 
   def create_delivery
-
     begin
       response = RestClient::Request.execute({
                 method: :post,
@@ -27,7 +31,7 @@ class Api::PostmatesController < ApplicationController
                 :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
                 :payload => deliveries_params.merge(parse_number)})
     rescue => e
-      render json: e
+      render json: e, status: 401
     else
       render json: response
     end

@@ -1,12 +1,14 @@
 class User < ActiveRecord::Base
 
-validates :username, :session_token, :password_digest, presence: true
+validates :username, :session_token, :password_digest,:first_name,:last_name, presence: true
 validates :password, length: {minimum: 6, allow_nil: true}
 validates :username, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
-has_one :family, dependent: :destroy
+
+has_many :donors, :through => :relationship, :source => :user
+has_one :family, :through => :relationship, :source => :user
 
  def password=(password)
    @password = password
