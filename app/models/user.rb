@@ -6,9 +6,9 @@ validates :username, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
-
-has_many :donors, :through => :relationship, :source => :user
-has_one :family, :through => :relationship, :source => :user
+#
+# has_many :donors, :through => :relationship, :source => :user
+# has_one :family, :through => :relationship, :source => :user
 
  def password=(password)
    @password = password
