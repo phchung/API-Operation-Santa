@@ -7,6 +7,6 @@ class Relationship < ActiveRecord::Base
     # foreign_key: :family_id,
     # class_name:"User"
 
-    belongs_to :donor, :foreign_key: :donor_id, class_name: :user
-    belongs_to :family, :foreign_key: :family_id, class_name: :user
+    # belongs_to :donor, :foreign_key: :donor_id, class_name: :user
+    # belongs_to :family, :foreign_key: :family_id, class_name: :user
 end
