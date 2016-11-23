@@ -8,9 +8,10 @@ class Api::UserController < ApplicationController
         photo_url = {family_photo: cloudinary_return["url"]}
         @family = Family.create(family_params.merge({user_id: @user.id}).merge(photo_url))
       elsif params["account_type"] == "donor"
-        
+
       end
       login(@user)
+      @session = true
       render "api/users/show"
     else
       render json: @user.errors, status: 401

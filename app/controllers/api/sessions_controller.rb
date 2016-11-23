@@ -9,6 +9,7 @@ class Api::SessionsController < ApplicationController
     )
     if @user
       login(@user)
+      @session = true
       render 'api/users/show'
     else
       render(
