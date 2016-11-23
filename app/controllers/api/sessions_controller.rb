@@ -3,10 +3,14 @@ class Api::SessionsController < ApplicationController
   after_filter :set_csrf_headers, only: [:create, :destroy]
 
   def create
-    @user = User.find_by_credentials(
-      params[:username],
-      params[:password]
-    )
+    if params[:session_token]
+      @user = User.find_by(session_token: params[:session_token])
+    else
+      @user = User.find_by_credentials(
+        params[:username],
+        params[:password]
+      )
+    end
     if @user
       login(@user)
       @session = true
