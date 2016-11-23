@@ -24,7 +24,7 @@ class Api::SessionsController < ApplicationController
       render 'api/users/show'
     else
       render(
-        json:  {"error"=>"Cannot find user"},status: 401
+        json: {"error"=>"Cannot find user"},status: 401
       )
     end
   end

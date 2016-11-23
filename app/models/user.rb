@@ -6,10 +6,11 @@ validates :username, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
-#
-# has_many :donors, :through => :relationship, :source => :user
-# has_one :family, :through => :relationship, :source => :user
-has_one :family
+
+has_one :family_data, foreign_key: "user_id", class_name: "Family"
+has_many :family_match, foreign_key: "donor_id", class_name: "Relationship"
+has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
+
 
  def password=(password)
    @password = password
@@ -30,6 +31,10 @@ has_one :family
    self.session_token = SecureRandom.urlsafe_base64(16)
    self.save!
    self.session_token
+ end
+
+ def matches
+   Relationship.where("donor_id = ? OR family_id = ?", self.id, self.id)
  end
 
  private

@@ -6,7 +6,6 @@ class Api::UserController < ApplicationController
       if !family_params["family_photo"].nil?
         cloudinary_return = Cloudinary::Uploader.upload('data:image/png\;base64,' + params["family_photo"])
         photo_url = {family_photo: cloudinary_return["url"]}
-        byebug
         @family = Family.create(family_params.merge({user_id: @user.id}).merge(photo_url))
       elsif params["account_type"] == "donor"
         
