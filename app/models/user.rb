@@ -26,6 +26,9 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
    return nil unless user && user.is_password?(password)
    user
  end
+ # time when created
+ # email
+ # sha256 
 
  def restore_token!
    self.session_token = SecureRandom.urlsafe_base64(16)

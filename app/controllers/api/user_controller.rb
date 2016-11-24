@@ -11,6 +11,7 @@ class Api::UserController < ApplicationController
 
       end
       login(@user)
+      
       @session = true
       render "api/users/show"
     else

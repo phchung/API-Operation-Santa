@@ -17,7 +17,7 @@ class Api::PostmatesController < ApplicationController
                 :payload => { :dropoff_address => params["dropoff_address"],
                            :pickup_address => params["pickup_address"]}})
     rescue => e
-      render json: e, status: 401
+      render json: e.http_body, status: 401
     else
       render json: response
     end
@@ -57,7 +57,3 @@ end
 # save delivry history
 # put call for updating user info
 # deleter user
-
-
-# [1,7,4,5,10]
-#
