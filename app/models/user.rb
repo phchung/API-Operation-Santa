@@ -28,12 +28,21 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
  end
  # time when created
  # email
- # sha256 
+ # sha256
 
  def restore_token!
    self.session_token = SecureRandom.urlsafe_base64(16)
    self.save!
    self.session_token
+ end
+
+ def generate_token
+   current_time = Time.now
+   secure_random = SecureRandom.urlsafe_base64(16)
+   email = self.email
+   token_str = current_time.to_s + secure_random + email.to_s
+   session[:session_token] = BCrypt::Password.create(token_str)
+   session[:session_token]
  end
 
  def matches
