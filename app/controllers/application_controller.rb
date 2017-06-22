@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
     # user_agent = request.user_agent
     # x_forwarded_For = request.remote_ip
     # session_token = BCrypt::Password.create(user_agent+x_forwarded_For+token)
-    Session.create(user_id: user_id, session_token: session_token)
+    st = session_token
+    Session.create(user_id: user_id, session_token: st)
   end
 
   def current_user
@@ -18,8 +19,9 @@ class ApplicationController < ActionController::Base
   end
 
   def session_token
-    session_token = request.user_agent + request.remote_ip + session[:session_token]
-    Digest::SHA1.hexdigest(session_token)
+    st = params[:session_token] ? params[:session_token] : session[:session_token]
+    digest_session_token = request.user_agent + request.remote_ip + st
+    Digest::SHA1.hexdigest(digest_session_token)
   end
 
   def logout

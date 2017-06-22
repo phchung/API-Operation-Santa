@@ -1,7 +1,7 @@
 require 'digest'
 
 class Session < ActiveRecord::Base
-  after_initialize :sessions_capacity
+  after_create :sessions_capacity
   after_initialize :ensure_expiration
 
   def sessions_capacity

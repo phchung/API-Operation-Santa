@@ -5,13 +5,18 @@ class Api::SessionsController < ApplicationController
   def create
     # Session.create(user_id: params["user_id"],session_token: params["session_token"])
     if params[:session_token]
-      user_id  = Session.find_by(session_token: session_tokens).first.id
-      @user = User.find(user_id)
+      session_obj  = Session.find_by(session_token: session_token)
+      if session_obj
+        @user = User.find(session_obj.user_id)
+      else
+        @user = nil
+      end
     else
       @user = User.find_by_credentials(
         params[:username],
         params[:password]
       )
+
       @session_token = generate_token(@user.email)
       login(@user.id) if @user
     end
