@@ -11,3 +11,9 @@ class Session < ActiveRecord::Migration
     end
   end
 end
+
+
+# session_token = BCrypt(current_time + email + SecureRandom)
+
+# save this to DB
+# token = session_token + HTTP_USER_AGENT + HTTP_X_FORWARDED_FOR

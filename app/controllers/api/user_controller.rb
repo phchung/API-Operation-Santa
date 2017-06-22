@@ -10,9 +10,10 @@ class Api::UserController < ApplicationController
       elsif params["account_type"] == "donor"
 
       end
-      login(@user)
-      
-      @session = true
+
+      @session_token = generate_token(@user.email)
+      login(@user.id)
+
       render "api/users/show"
     else
       render json: @user.errors, status: 401
@@ -62,7 +63,7 @@ private
 
   def user_params
     params.permit(
-      :username,:password,:first_name,:last_name,:phone_number,:account_type,:address
+      :username,:password,:first_name,:last_name,:phone_number,:account_type,:address,:email
     )
   end
 

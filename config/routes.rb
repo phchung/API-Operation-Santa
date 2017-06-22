@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
-    resource :session, only: [:create,:destroy] 
+    resource :session, only: [:create,:destroy]
     resources :user, only: [:create,:index,:show,:update,:destroy]
     resources :postmates, only: [:get,:put,:delete] do
       collection do

@@ -1,3 +1,5 @@
+require 'byebug'
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -5,23 +7,38 @@ class ApplicationController < ActionController::Base
   before_filter :add_allow_credentials_headers
   helper_method :current_user, :logged_in?
 
-  def login(user)
-    session[:session_token] = user.restore_token!
+  def login(user_id)
+    # user_agent = request.user_agent
+    # x_forwarded_For = request.remote_ip
+    # session_token = BCrypt::Password.create(user_agent+x_forwarded_For+token)
+    Session.create(user_id: user_id, session_token: session_token)
   end
 
   def current_user
-    @current_user ||= User.find_by(session_token: [session[:session_token]])
+    user_id = Session.find_by(session_token: session_token).user_id
+    @current_user ||= User.find(user_id)
+  end
+
+  def session_token
+    session_token = request.user_agent + request.remote_ip + session[:session_token]
+    Digest::SHA1.hexdigest(session_token)
   end
 
   def logout
+    Session.where(session_token: session_token).delete
     session[:session_token] = nil
-    current_user.restore_token!
     @current_user = nil
   end
 
-  def log_session(session_token)
-
+  def generate_token(email)
+    current_time = Time.now
+    secure_random = SecureRandom.urlsafe_base64(16)
+    email = email
+    token_str = current_time.to_s + secure_random + email.to_s
+    session[:session_token] = Digest::SHA1.hexdigest(token_str)
+    session[:session_token]
   end
+
 
   def require_logged_in
     render json: {base: ['invalid credentials']}, status: 401 if !current_user
