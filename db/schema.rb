@@ -11,16 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625231657) do
+ActiveRecord::Schema.define(version: 20170625235205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "families", force: :cascade do |t|
+    t.integer  "user_id",      null: false
+    t.integer  "family_size",  null: false
+    t.text     "family_photo"
+    t.text     "family_story"
+    t.text     "wish_list"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer  "donor_id",   null: false
+    t.integer  "family_id",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "relationships", ["donor_id"], name: "index_relationships_on_donor_id", using: :btree
+  add_index "relationships", ["family_id"], name: "index_relationships_on_family_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.string   "session_token", null: false
     t.integer  "user_id",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "expiration"
   end
 
   add_index "sessions", ["session_token"], name: "index_sessions_on_session_token", using: :btree
