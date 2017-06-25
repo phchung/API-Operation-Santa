@@ -17,3 +17,6 @@ end
 
 # save this to DB
 # token = session_token + HTTP_USER_AGENT + HTTP_X_FORWARDED_FOR
+
+
+# resetting heroku database
