@@ -18,11 +18,10 @@ class Api::SessionsController < ApplicationController
         @user = nil
       end
     else
-      @session_token = generate_token(@user.email)
-      login(@user.id) if @user
     end
     if @user
-      @session = true
+      @session_token = generate_token(@user.email)
+      login(@user.id)
       render 'api/users/show'
     else
       session[:session_token] = nil
