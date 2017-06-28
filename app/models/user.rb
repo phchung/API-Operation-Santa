@@ -7,7 +7,7 @@ validates :email, presence: true, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
-after_initialize :ensure_username_on_creation
+before_validation :ensure_username_on_creation
 
 has_one :family_data, foreign_key: "user_id", class_name: "Family"
 has_many :family_match, foreign_key: "donor_id", class_name: "Relationship"
@@ -42,14 +42,14 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
    self.username = self.email
  end
 
- def generate_token
-   current_time = Time.now
-   secure_random = SecureRandom.urlsafe_base64(16)
-   email = self.email
-   token_str = current_time.to_s + secure_random + email.to_s
-   session[:session_token] = BCrypt::Password.create(token_str)
-   session[:session_token]
- end
+ # def generate_token
+ #   current_time = Time.now
+ #   secure_random = SecureRandom.urlsafe_base64(16)
+ #   email = self.email
+ #   token_str = current_time.to_s + secure_random + email.to_s
+ #   session[:session_token] = BCrypt::Password.create(token_str)
+ #   session[:session_token]
+ # end
 
  def matches
    Relationship.where("donor_id = ? OR family_id = ?", self.id, self.id)

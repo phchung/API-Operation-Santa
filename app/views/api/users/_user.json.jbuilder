@@ -4,5 +4,5 @@ if user.family_data
 end
 
 if session
-  json.extract! user, :session_token
+  json.session session
 end
