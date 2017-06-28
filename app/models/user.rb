@@ -7,6 +7,7 @@ validates :email, presence: true, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
+after_initialize :ensure_username_on_creation
 
 has_one :family_data, foreign_key: "user_id", class_name: "Family"
 has_many :family_match, foreign_key: "donor_id", class_name: "Relationship"
@@ -35,6 +36,10 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
    self.session_token = SecureRandom.urlsafe_base64(16)
    self.save!
    self.session_token
+ end
+
+ def ensure_username_on_creation
+   self.username = self.email
  end
 
  def generate_token
