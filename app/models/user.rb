@@ -22,10 +22,10 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
    BCrypt::Password.new(self.password_digest).is_password?(password)
  end
 
- def self.find_by_credentials(username,password,id)
+ def self.find_by_credentials(username,password)
    user = User.find_by(username: username)
    return nil unless user && user.is_password?(password)
-   return nil unless user.id == id
+  #  return nil unless user.id == id
    user
  end
  # time when created
