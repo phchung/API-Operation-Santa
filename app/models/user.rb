@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
 
-validates :username, :session_token, :password_digest,:first_name,:last_name, presence: true
+validates :session_token, :password_digest,:first_name,:last_name, presence: true
 validates :password, length: {minimum: 6, allow_nil: true}
 validates :username, uniqueness: true
+validates :email, presence: true, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
@@ -10,7 +11,6 @@ after_initialize :ensure_session_token
 has_one :family_data, foreign_key: "user_id", class_name: "Family"
 has_many :family_match, foreign_key: "donor_id", class_name: "Relationship"
 has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
-
 
  def password=(password)
    @password = password
@@ -21,9 +21,10 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
    BCrypt::Password.new(self.password_digest).is_password?(password)
  end
 
- def self.find_by_credentials(username,password)
+ def self.find_by_credentials(username,password,st)
    user = User.find_by(username: username)
    return nil unless user && user.is_password?(password)
+   return nil unless user.session_token == st
    user
  end
  # time when created

@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Api::SessionsController < ApplicationController
 
   after_filter :set_csrf_headers, only: [:create, :destroy]
@@ -5,18 +7,17 @@ class Api::SessionsController < ApplicationController
   def create
     # Session.create(user_id: params["user_id"],session_token: params["session_token"])
     if params[:session_token]
-      session_obj  = Session.find_by(session_token: session_token)
+      session_obj  = Session.find_by(session_token: params[:session_token])
       if session_obj
-        @user = User.find(session_obj.user_id)
+        @user = User.find_by_credentials(
+          params[:username],
+          params[:password],
+          session_obj.session_token
+        )
       else
         @user = nil
       end
     else
-      @user = User.find_by_credentials(
-        params[:username],
-        params[:password]
-      )
-
       @session_token = generate_token(@user.email)
       login(@user.id) if @user
     end
