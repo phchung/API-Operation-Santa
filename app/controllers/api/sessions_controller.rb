@@ -4,24 +4,32 @@ class Api::SessionsController < ApplicationController
 
   def create
     # Session.create(user_id: params["user_id"],session_token: params["session_token"])
+    session_obj = nil
     if params[:session_token]
       session_obj  = Session.find_by(session_token: params[:session_token])
       if session_obj
-        @user = User.find_by_credentials(params[:username],params[:password],session_obj.user_id)
+        @user = User.find(session_obj.user_id)
       else
         @user = nil
       end
     else
     end
+
     if @user
       @session_token = generate_token(@user.email)
       login(@user.id)
       render 'api/users/show'
     else
       session[:session_token] = nil
-      render(
-        json: {"error"=>"Invalid username/password combination"},status: 401
-      )
+      if session_obj
+        render(
+          json: {"error"=>"Invalid username/password combination"},status: 401
+        )
+      else
+        render(
+          json: {"error"=>"Invalid Session Token"},status: 401
+        )
+      end
     end
   end
 
