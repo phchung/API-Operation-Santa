@@ -11,8 +11,8 @@ class Api::SessionsController < ApplicationController
         # @user = User.find_by_credentials(params[:username],params[:password],session_obj.user_id)
         @user = User.find(session_obj.user_id)
       end
-    elsif params[:username] && params[:password]
-      @user = User.find_by_credentials(params[:username],params[:password])
+    elsif params[:email] && params[:password]
+      @user = User.find_by_credentials(params[:email],params[:password])
     else
       @user = nil
     end
@@ -22,14 +22,13 @@ class Api::SessionsController < ApplicationController
       login(@user.id)
       render 'api/users/show'
     else
-      session[:session_token] = nil
       if session_obj
         render(
-          json: {"error"=>"Invalid username/password combination"},status: 401
+          json: {"error"=>"Invalid Session Token"},status: 401
         )
       else
         render(
-          json: {"error"=>"Invalid Session Token"},status: 401
+          json: {"error"=>"Invalid username/password combination"},status: 401
         )
       end
     end
