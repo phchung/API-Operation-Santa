@@ -6,9 +6,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
 
   def login(user_id)
-    # user_agent = request.user_agent
-    # x_forwarded_For = request.remote_ip
-    # session_token = BCrypt::Password.create(user_agent+x_forwarded_For+token)
     st = session_token
     Session.create(user_id: user_id, session_token: st)
   end

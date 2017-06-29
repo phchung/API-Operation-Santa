@@ -8,7 +8,6 @@ class Api::SessionsController < ApplicationController
     if params[:session_token]
       session_obj  = Session.find_by(session_token: session_token)
       if session_obj
-        # @user = User.find_by_credentials(params[:username],params[:password],session_obj.user_id)
         @user = User.find(session_obj.user_id)
       end
     elsif params[:email] && params[:password]

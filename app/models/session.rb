@@ -4,13 +4,9 @@ class Session < ActiveRecord::Base
   after_create :sessions_capacity
   after_initialize :ensure_expiration
 
-  def self.find_by_credentials(session_token)
-    
-  end
-
   def sessions_capacity
     session_lists = Session.where(user_id: self.user_id).order('created_at desc')
-    session_lists.first.delete if session_lists.length > 5
+    session_lists.last.delete if session_lists.length > 5
   end
 
   def ensure_expiration
