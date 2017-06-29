@@ -4,5 +4,5 @@ if user.family_data
 end
 
 if session
-  json.session session
+  json.session_token session
 end
