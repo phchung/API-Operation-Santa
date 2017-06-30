@@ -83,7 +83,7 @@ private
 
   def family_params
     params.permit(
-      :description,:family_size,:family_photo,:family_story
+      :description,:family_size,:family_photo,:family_story,:wish_list
     )
   end
 end
