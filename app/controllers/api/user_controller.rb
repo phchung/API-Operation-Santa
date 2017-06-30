@@ -44,22 +44,25 @@ class Api::UserController < ApplicationController
 # PUT /api/users/:userid
   def update
     @user = User.find(params[:id])
-    @user.update(user_updatable_params)
-    if family_params.present?
-      family_relation = @user.family_data
-      if family_relation
-        family_relation.update(family_params)
-      else
-        photo_url = {}
-        if !family_params["family_photo"].nil?
-          cloudinary_return = Cloudinary::Uploader.upload('data:image/png\;base64,' + params["family_photo"])
-          photo_url = {family_photo: cloudinary_return["url"]}
+    if @user.update(user_updatable_params)
+      if family_params.present?
+        family_relation = @user.family_data
+        if family_relation
+          family_relation.update_attributes(family_params)
         else
-          @family = Family.create(family_params.merge({user_id: @user.id}).merge(photo_url))
+          photo_url = {}
+          if !family_params["family_photo"].nil?
+            cloudinary_return = Cloudinary::Uploader.upload('data:image/png\;base64,' + params["family_photo"])
+            photo_url = {family_photo: cloudinary_return["url"]}
+          else
+            @family = Family.create(family_params.merge({user_id: @user.id}).merge(photo_url))
+          end
         end
       end
+      render "api/users/show"
+    else
+      render json:@user.errors.full_messages, stats:204
     end
-    render "api/users/show"
   end
 
 # DELETE /api/users/:userid
