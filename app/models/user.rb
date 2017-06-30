@@ -7,7 +7,7 @@ validates :email, presence: true, uniqueness: true
 
 attr_reader :password
 after_initialize :ensure_session_token
-before_validation :ensure_username_on_creation
+after_initialize :ensure_username_on_creation
 
 has_one :family_data, foreign_key: "user_id", class_name: "Family"
 has_many :family_match, foreign_key: "donor_id", class_name: "Relationship"

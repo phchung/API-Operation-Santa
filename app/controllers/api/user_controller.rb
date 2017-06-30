@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Api::UserController < ApplicationController
 
   def create
@@ -44,7 +46,7 @@ class Api::UserController < ApplicationController
 # PUT /api/users/:userid
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
+    @user.update(user_updatable_params)
     if family_params.present?
       family_relation = @user.family_data
       if family_relation
@@ -78,6 +80,12 @@ private
   def user_params
     params.permit(
       :username,:password,:first_name,:last_name,:phone_number,:account_type,:address,:email
+    )
+  end
+
+  def user_updatable_params
+    params.permit(
+      :username,:password,:first_name,:last_name,:phone_number,:address,:email
     )
   end
 
