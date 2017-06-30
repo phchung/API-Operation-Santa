@@ -39,6 +39,7 @@ has_many :donors_match, foreign_key: "family_id", class_name: "Relationship"
  end
 
  def ensure_username_on_creation
+   return if self.username
    self.username = self.email
  end
 
