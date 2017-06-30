@@ -45,6 +45,20 @@ class Api::UserController < ApplicationController
   def update
     @user = User.find(params[:id])
     @user.update(user_params)
+    if family_params.present?
+      family_relation = @user.family_data
+      if family_relation
+        family_relation.update(family_params)
+      else
+        photo_url = {}
+        if !family_params["family_photo"].nil?
+          cloudinary_return = Cloudinary::Uploader.upload('data:image/png\;base64,' + params["family_photo"])
+          photo_url = {family_photo: cloudinary_return["url"]}
+        else
+          @family = Family.create(family_params.merge({user_id: @user.id}).merge(photo_url))
+        end
+      end
+    end
     render "api/users/show"
   end
 
