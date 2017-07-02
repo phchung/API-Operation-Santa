@@ -34,14 +34,12 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     @user = current_user
-    if @user
-      logout
-      render 'api/users/show'
-    else
-      render(
-        json: {"error"=>"Cannot find user"},status: 401
-      )
-    end
+    logout
+    render 'api/users/show'
+  rescue
+    render(
+      json: {"error"=>"Cannot find user"},status: 401
+    )
   end
 
   protected

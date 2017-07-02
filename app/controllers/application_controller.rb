@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logout
-    Session.where(session_token: session_token).delete
+    Session.find_by(session_token: session_token).delete
     session[:session_token] = nil
     @current_user = nil
   end
