@@ -16,11 +16,12 @@ class Api::SessionsController < ApplicationController
       @user = nil
     end
     if @user
-      @session_token = generate_token(@user.email)
-      login(@user.id)
+      # @session_token = generate_token(@user.email)
+      # login(@user.id)
+      @session_token = params[:session_token]
       render 'api/users/show'
     else
-      if session_obj
+      if session_obj || params[:session_token]
         render(
           json: {"error"=>"Invalid Session Token"},status: 401
         )
