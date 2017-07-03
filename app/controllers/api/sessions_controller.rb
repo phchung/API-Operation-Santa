@@ -15,6 +15,10 @@ class Api::SessionsController < ApplicationController
       @user = User.find_by_credentials(params[:email],params[:password])
       @session_token = generate_token(@user.email)
       login(@user.id)
+    elsif params[:username] && params[:password]
+      @user = User.find_by_credentials(params[:username],params[:password])
+      @session_token = generate_token(@user.email)
+      login(@user.id)
     else
       @user = nil
     end
