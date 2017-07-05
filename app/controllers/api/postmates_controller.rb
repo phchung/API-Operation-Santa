@@ -9,7 +9,7 @@ class Api::PostmatesController < ApplicationController
   end
 
   def index
-    render html: '<div>Postmates</div>'
+    render plain: 'Postmates index'
   end
 
   def create
