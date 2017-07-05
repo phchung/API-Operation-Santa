@@ -9,7 +9,13 @@ class Api::PostmatesController < ApplicationController
   end
 
   def index
-    render html: "<div>Postmates</div>".html_safe
+    render html: '<div>Postmates</div>'.html_safe
+  end
+
+  def create
+    render(
+      json: { "url" => "POST /api/postmates" }
+    )
   end
 
   def get_estimate
