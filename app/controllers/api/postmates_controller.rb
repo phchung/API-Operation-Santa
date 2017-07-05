@@ -8,6 +8,10 @@ class Api::PostmatesController < ApplicationController
     @customer_id = Rails.application.secrets.customer_id
   end
 
+  def index
+    render html: "<div>Postmates</div>".html_safe
+  end
+
   def get_estimate
     begin
       response = RestClient::Request.execute({
