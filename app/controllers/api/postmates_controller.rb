@@ -10,12 +10,16 @@ class Api::PostmatesController < ApplicationController
 
   def get_estimate
     begin
+      user = User.find(params["uid"])
       response = RestClient::Request.execute({
                 method: :post,
                 url: 'https://api.postmates.com/v1/customers/'+ "cus_L1UBJKTP5tOgf-" + '/delivery_quotes',
                 :headers => { 'Authorization' => "Basic MjBiNDY1MWUtODM1ZC00NmIxLWIwY2YtZmEwZjU2YmU1OTA1Og==" },
-                :payload => { :dropoff_address => params["dropoff_address"],
-                           :pickup_address => params["pickup_address"]}})
+                :payload => { 
+                  :dropoff_address => user["address"],
+                  :pickup_address => params["pickup_address"]
+                }
+              })
     rescue => e
       render json: e.http_body, status: 401
     else

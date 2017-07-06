@@ -27,7 +27,7 @@ class Api::SessionsController < ApplicationController
     else
       if session_obj || params[:session_token]
         render(
-          json: {"error"=>"Invalid Session Token"},status: 401
+          json: {"error"=>"Invalid session token"},status: 401
         )
       else
         render(

@@ -70,7 +70,7 @@ class Api::UserController < ApplicationController
     @user = User.find(params[:id])
     if @user
       @user.destroy
-      render json:{"status"=>"user been deleted"},status: 200
+      render json:{"status"=>"User been deleted"},status: 200
     else
       render json: @user.errors, status: 401
     end
