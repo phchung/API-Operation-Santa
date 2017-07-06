@@ -8,16 +8,6 @@ class Api::PostmatesController < ApplicationController
     @customer_id = Rails.application.secrets.customer_id
   end
 
-  def index
-    render plain: 'Postmates index'
-  end
-
-  def create
-    render(
-      json: { "url" => "POST /api/postmates" }
-    )
-  end
-
   def get_estimate
     begin
       response = RestClient::Request.execute({
