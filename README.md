@@ -15,3 +15,7 @@ rake db:setup
 # Start server
 rails s
 ```
+
+## Todo
+- Family and adopter matching/pairing (pair upon new user registration and upon pair terminations)
+- Restrict API endpoints' access by requiring session_token for privileged actions
